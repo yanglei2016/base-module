@@ -3,10 +3,8 @@ package com.yang.common.interceptor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.collections4.MapUtils;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.plugin.Interceptor;
@@ -14,6 +12,7 @@ import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.reflection.DefaultReflectorFactory;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.slf4j.Logger;
@@ -34,20 +33,16 @@ public class PageInterceptor implements Interceptor {
 	
 	@Override
 	public Object intercept(Invocation invocation) throws Exception{
-		PageModel pageModelThreadLocal = PageContext.getPageModel();
+		PageModel pageModel = PageContext.getPageModel();
 		logger.info("-----------------------------------");
-		logger.info("pageModelThreadLocal：{}", GsonUtils.toJson(pageModelThreadLocal));
+		logger.info("pageModel：{}", GsonUtils.toJson(pageModel));
+		logger.info("-----------------------------------");
+		if(pageModel == null){
+        	return invocation.proceed();
+        }
 		try{
 			StatementHandler statementHandler = (StatementHandler)invocation.getTarget();
 			BoundSql boundSql = statementHandler.getBoundSql();
-			
-	        PageModel pageModel = this.getPageModel(boundSql);
-	        logger.info("pageModel：{}", GsonUtils.toJson(pageModel));
-	        logger.info("-----------------------------------");
-	        if(pageModel == null){
-	        	return invocation.proceed();
-	        }
-	        
 	        String sql = boundSql.getSql();
 	        String conutSql = this.createCountSql(sql);
 	        String pageSql = this.createPageSql(sql, pageModel);
@@ -62,7 +57,8 @@ public class PageInterceptor implements Interceptor {
 	        	pageModel.setCount(rs.getInt(1));
 	        }
 	        
-			MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
+	        MetaObject metaObject = MetaObject.forObject(statementHandler, SystemMetaObject.DEFAULT_OBJECT_FACTORY, SystemMetaObject.DEFAULT_OBJECT_WRAPPER_FACTORY, new DefaultReflectorFactory());
+//			MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
 			metaObject.setValue("delegate.boundSql.sql", pageSql);
 		}catch(Exception e){
 			logger.error("分页拦截器异常", e);
@@ -71,25 +67,6 @@ public class PageInterceptor implements Interceptor {
 			PageContext.remove();
 		}
 		return invocation.proceed();
-	}
-	
-	/**
-	 * 获取分页对象
-	 * @author yanglei
-	 * 2017年6月30日 上午11:36:31
-	 */
-	private PageModel getPageModel(BoundSql boundSql){
-		PageModel pageModel = null;
-		if(boundSql.getParameterObject() instanceof Map){
-			@SuppressWarnings("unchecked")
-			Map<String, Object> params = (Map<String, Object>)boundSql.getParameterObject();
-	        if(MapUtils.isNotEmpty(params)){
-	        	if(params.containsKey(PageModel.PAGE_PARAMS)){
-	        		pageModel = (PageModel)params.get(PageModel.PAGE_PARAMS);
-	        	}
-	        }
-		}
-        return pageModel;
 	}
 	
 	/**
