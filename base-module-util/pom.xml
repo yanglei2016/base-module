@@ -15,47 +15,53 @@
   <name>base-module-util</name>
   <url>http://maven.apache.org</url>
   
+  <properties>
+  	<spring.version>4.3.12.RELEASE</spring.version>
+  	<mybatis.version>3.4.4</mybatis.version>
+  	<mybatis.spring.version>1.3.1</mybatis.spring.version>
+  </properties>
+  
   <dependencies>
         <!-- 添加Spring-core包 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>4.2.2.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <!-- 添加spring-context包 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>4.2.2.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>  
             <groupId>org.springframework</groupId>  
             <artifactId>spring-context-support</artifactId>  
-            <version>4.2.2.RELEASE</version>  
+            <version>${spring.version}</version>  
         </dependency>
         <!-- 添加spring-tx包 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>4.2.2.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <!-- 添加spring-jdbc包 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>4.2.2.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <!-- 为了方便进行单元测试，添加spring-test包 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>4.2.2.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <!--添加spring-web包 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>4.2.2.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <!--添加aspectjweaver包 -->
         <dependency>
@@ -67,25 +73,25 @@
         <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-aop</artifactId>
-		    <version>4.2.2.RELEASE</version>
+		    <version>${spring.version}</version>
 		</dependency>
         <!--添加spring-dispatch依赖包 -->
         <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-webmvc</artifactId>
-		    <version>4.2.2.RELEASE</version>
+		    <version>${spring.version}</version>
 		</dependency>
         <!-- 添加mybatis的核心包 -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.2.8</version>
+            <version>${mybatis.version}</version>
         </dependency>
         <!-- 添加mybatis与Spring整合的核心包 -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
-            <version>1.2.2</version>
+            <version>${mybatis.spring.version}</version>
         </dependency>
         <!-- 添加servlet3.0核心包 -->
         <dependency>
@@ -247,7 +253,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jms</artifactId>
-			<version>4.2.2.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
         <!-- 使用jedis -->
 		<dependency>
