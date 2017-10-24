@@ -35,7 +35,7 @@ public class PageInterceptor implements Interceptor {
 	public Object intercept(Invocation invocation) throws Exception{
 		PageModel pageModel = PageContext.getPageModel();
 		logger.info("-----------------------------------");
-		logger.info("pageModel：{}", GsonUtils.toJson(pageModel));
+		logger.info("pageModel：{}", GsonUtils.toJsonString(pageModel));
 		logger.info("-----------------------------------");
 		if(pageModel == null){
         	return invocation.proceed();

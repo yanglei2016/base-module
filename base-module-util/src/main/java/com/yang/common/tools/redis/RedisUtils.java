@@ -67,7 +67,7 @@ public class RedisUtils {
 	public boolean set(String key, Object object) {
         ShardedJedis jedis = getJ();
         try {
-            jedis.set(key, GsonUtils.toJson(object));
+            jedis.set(key, GsonUtils.toJsonString(object));
             return true;
         } catch (Exception e) {
             logger.error("set error", e);
@@ -89,7 +89,7 @@ public class RedisUtils {
     public boolean set(String key, Object object, int seconds) {
         ShardedJedis jedis = getJ();
         try {
-            jedis.setex(key, seconds, GsonUtils.toJson(object));
+            jedis.setex(key, seconds, GsonUtils.toJsonString(object));
             return true;
         } catch (Exception e) {
             logger.error("set error", e);

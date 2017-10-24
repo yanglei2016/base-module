@@ -3,7 +3,11 @@ package com.yang.common.tools.json;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 
@@ -14,10 +18,14 @@ import com.google.gson.reflect.TypeToken;
 public class GsonUtils {
 
 	private static Gson gson = null;
+	private static JsonParser jsonParser = null;
 
 	static {
 		if (gson == null) {
 			gson = new Gson();
+		}
+		if (jsonParser == null) {
+			jsonParser = new JsonParser();
 		}
 	}
 
@@ -31,7 +39,7 @@ public class GsonUtils {
 	 * @author yanglei
 	 * 2017年7月14日 上午10:44:42
 	 */
-	public static String toJson(Object object) {
+	public static String toJsonString(Object object) {
 		String gsonString = null;
 		if (gson != null) {
 			gsonString = gson.toJson(object);
@@ -101,4 +109,18 @@ public class GsonUtils {
 		return map;
 	}
 
+	/**
+	 * 转成JsonObject
+	 * @param jsonStr
+	 * @return
+	 */
+	public static JsonObject toJSONObject(String jsonStr){
+		if (StringUtils.isBlank(jsonStr)){
+			return null;
+		}
+		if (gson == null) {
+			return null;
+		}
+		return jsonParser.parse(jsonStr).getAsJsonObject();
+	}
 }
