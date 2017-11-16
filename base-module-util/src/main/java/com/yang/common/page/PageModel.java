@@ -56,10 +56,13 @@ public class PageModel {
 	}
 
 	public int getTotalPage() {
-		totalPage = count / pageSize;
-		if ((count % pageSize) != 0){
-			totalPage = totalPage + 1;
-		}
+//		totalPage = count / pageSize;
+//		if ((count % pageSize) != 0){
+//			totalPage = totalPage + 1;
+//		}
+		
+		// 逢一进一高效分页公式：总页数 = （总条数 - 1） / 每页查询条数 + 1
+		totalPage = (count - 1) / pageSize + 1;
 		return totalPage;
 	}
 
